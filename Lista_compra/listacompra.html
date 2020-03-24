@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        #app ul {
+            list-style: none;
+        }
+        
+        #app ul li.comprado span {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lista de la compra</h1>
+    <div id="app">
+        <ul>
+            <li v-for="item in items" :key="item">
+                <input type='checkbox' v-model="checked" />
+
+                <span>{{item.id}} - {{item.texto}}</span>
+            </li>
+        </ul>
+        <!-- AÑADIR NUEVOS ITEMS -->
+    </div>
+</body>
+<script>
+    'use strict' // Aplica normas mas estrictas en el codigo
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [{
+                id: 1,
+                texto: 'Leche',
+                comprado: false
+            }]
+        },
+        computed: {},
+
+        methods: {
+            add: function() {}
+        }
+    })
+</script>
+
+</html>

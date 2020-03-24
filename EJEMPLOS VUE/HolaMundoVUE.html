@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <!-- 1 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- 2 -->
+    <div id="app">
+        {{ mensaje }}
+    </div>
+</body>
+<script>
+    /*- 3 */
+    var app = new Vue({
+        el: '#app',
+        data: {
+            mensaje: 'Hola mundo'
+        }
+    })
+</script>
+
+</html>

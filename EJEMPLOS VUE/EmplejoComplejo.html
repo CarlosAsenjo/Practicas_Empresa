@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- 1 -->
+    <div id="app">
+        <!-- 2 -->
+        <span v-if='visible'>{{ mensaje }}</span>
+        <!-- 3 -->
+        <button @click='toggle' v-html='textoBoton'>Visible</button>
+    </div>
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            /* 4 */
+            visible: false,
+            mensaje: 'Hola mundo'
+        },
+        /* 5 */
+        computed: {
+            textoBoton: function() {
+                return this.visible ? 'Invisible' : 'Visible';
+            }
+        },
+        /* 6 */
+        methods: {
+            toggle: function() {
+                this.visible = !this.visible;
+            }
+        }
+    })
+</script>
+
+</html>
