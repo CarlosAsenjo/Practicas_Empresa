@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculadora Vue</title>
+    <!--CSS-->
+    <link rel="stylesheet" href="calculadora.css">
+    <!--Libreria Vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div>
+        <table id="calculadora">
+            <tr>
+                <td colspan="4" class="result">{{result}}</td>
+            </tr>
+            <tr>
+                <td class="button" @click='numeros("7")'>7</td>
+                <td class="button" @click='numeros("8")'>8</td>
+                <td class="button" @click='numeros("9")'>9</td>
+                <td class="button" @click='numeros("*")'>*</td>
+            </tr>
+            <tr>
+                <td class="button" @click='numeros("4")'>4</td>
+                <td class="button" @click='numeros("5")'>5</td>
+                <td class="button" @click='numeros("6")'>6</td>
+                <td class="button" @click='numeros("-")'>-</td>
+            </tr>
+            <tr>
+                <td class="button" @click='numeros("1")'>1</td>
+                <td class="button" @click='numeros("2")'>2</td>
+                <td class="button" @click='numeros("3")'>3</td>
+                <td class="button" @click='numeros("+")'>+</td>
+            </tr>
+            <tr>
+                <td class="button" @click='numeros("0")'>0</td>
+                <td class="reset" @click='reset'>R</td>
+                <td class="calcular" @click='calcular'>=</td>
+                <td class="button" @click='numeros("/")'>/</td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    var calculadora = new Vue({
+        el: '#calculadora',
+        data: {
+            result: "0"
+        },
+        methods: {
+            numeros(num) {
+                if (this.result == "0")
+                    this.result = num;
+                else
+                    this.result += num;
+            },
+            calcular() {
+
+                this.result = eval(this.result);
+            },
+            reset() {
+                this.result = "0";
+            }
+        }
+
+    })
+</script>
+
+</html>
