@@ -22,18 +22,18 @@
 <body>
     <h1>Lista de la compra</h1>
     <div id="app">
-        <ul v-for="item in items" :key="item">
-            <li>
-                <input type='checkbox' v-model="checked" />
+        <ul>
+            <li v-for="item in items" :key="item.id" :class="{comprado:item.comprado}">
+                <input type='checkbox' v-model="item.comprado" />
 
                 <span>{{item.id}} - {{item.texto}}</span>
             </li>
         </ul>
         <!-- AÑADIR NUEVOS ITEMS -->
-        <form @submit.prevent="" class="form">
-            <input type="text" v-model="new_item" />
-            <button type="submit">Añadir</button>
-        </form>
+
+        <input type="text" ref="new_item" />
+        <button type="submit" @click="add">Añadir</button>
+
     </div>
 </body>
 
@@ -46,15 +46,18 @@
                 id: 1,
                 texto: 'Leche',
                 comprado: false
-            }]
+            }],
+
         },
         computed: {},
 
         methods: {
             add: function() {
-                this.items.push(this.new_item);
-
-
+                this.items.push({
+                    id: this.items.length + 1,
+                    texto: this.$refs.new_item.value,
+                    comprado: false
+                })
             }
         }
     })
