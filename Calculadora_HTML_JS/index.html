@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora html</title>
+    <!-- HOJA DE ESTILOS -->
+    <style>
+        table {
+            font-family: sans-serif;
+            font-size: 300%;
+            text-align: center;
+            width: 25vw;
+            cursor: pointer;
+        }
+        
+        td {
+            border: 1px solid;
+        }
+        
+        .result {
+            text-align: right;
+            height: 2.5vh;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- AREA DE TRABAJO -->
+    <div id="calculadora">
+        <table>
+            <tr>
+                <td class="result" colspan="4">0</td>
+            </tr>
+            <tr>
+                <td class="button" value="7">7</td>
+                <td class="button">8</td>
+                <td class="button">9</td>
+                <td class="button">*</td>
+            </tr>
+            <tr>
+                <td class="button">4</td>
+                <td class="button">5</td>
+                <td class="button">6</td>
+                <td class="button">-</td>
+            </tr>
+            <tr>
+                <td class="button">1</td>
+                <td class="button">2</td>
+                <td class="button">3</td>
+                <td class="button">+</td>
+            </tr>
+            <tr>
+                <td class="button" colspan="2">0</td>
+                <td class="reset">R</td>
+                <td class="calculate">=</td>
+            </tr>
+        </table>
+    </div>
+    <!-- JS script (CODIGO DE CONTROL)-->
+    <script src=" calculadora.js "></script>
+</body>
+
+</html>
