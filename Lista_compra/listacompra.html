@@ -22,18 +22,21 @@
 <body>
     <h1>Lista de la compra</h1>
     <div id="app">
-        <ul>
-            <li v-for="item in items" :key="item">
+        <ul v-for="item in items" :key="item">
+            <li>
                 <input type='checkbox' v-model="checked" />
 
                 <span>{{item.id}} - {{item.texto}}</span>
             </li>
         </ul>
         <!-- AÑADIR NUEVOS ITEMS -->
-        <input type="text" />
-        <button type="submit">Añadir</button>
+        <form @submit.prevent="" class="form">
+            <input type="text" v-model="new_item" />
+            <button type="submit">Añadir</button>
+        </form>
     </div>
 </body>
+
 <script>
     'use strict' // Aplica normas mas estrictas en el codigo
     var app = new Vue({
@@ -48,7 +51,11 @@
         computed: {},
 
         methods: {
-            add: function() {}
+            add: function() {
+                this.items.push(this.new_item);
+
+
+            }
         }
     })
 </script>
