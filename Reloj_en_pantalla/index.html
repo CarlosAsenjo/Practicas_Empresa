@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reloj en pantalla</title>
+    <!--Libreria Vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <div>
+            {{hh}}:{{mm}}:{{ss}}
+        </div>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                // Timestamp en formato unix (milisegundos desde el 1 de enero de 1970)
+                ts: 0,
+            },
+            computed: {
+                // Horas minutos y segundos
+                hh() {
+                    let d = this.getDate();
+                    return d.getHours();
+                },
+                mm() {
+                    let d = this.getDate();
+                    return d.getMinutes()
+                },
+                ss() {
+                    let d = this.getDate();
+                    return d.getSeconds()
+                }
+            },
+            methods: {
+                // Transforma el timestamp a un objeto Date
+                getDate() {
+                    return new Date(this.ts)
+                }
+            },
+            /**
+             * Created se lama cuando el objeto se ha creado.
+             * Creamos un intervalo de un segundo para actualizar ts
+             */
+            created: function() {
+                setInterval(() => {
+                    this.ts = (new Date()).getTime();
+                }, 1000);
+                this.ts = (new Date()).getTime();
+            }
+        })
+    </script>
+</body>
+
+</html>
