@@ -7,16 +7,29 @@
     <title>Reloj en pantalla</title>
     <!--Libreria Vue-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- ESTILOS -->
+    <style>
+        #app {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            text-align: center;
+        }
+        
+        .clock {
+            width: 100px;
+            border: 1px solid black;
+        }
+    </style>
 </head>
 
 <body>
     <div id='app'>
-        <div>
-            <ul>
-                <li v-for=" i in itms" :key='i.nombre'>
-                    {{i.nombre}} - {{i.hh.offset}}:{{i.mm.offset}}:{{i.ss.offset}}
-                </li>
-            </ul>
+        <div v-for='i in itms' :key='i.nombre' class="clock">
+            {{i.nombre}} <br>
+            <hr> {{hh(i.offset)}}:{{mm(i.offset)}}:{{ss(i.offset)}}
+
         </div>
     </div>
     <script>
@@ -26,6 +39,9 @@
                 // Timestamp en formato unix (milisegundos desde el 1 de enero de 1970)
                 ts: 0,
                 itms: [{
+                    nombre: 'Madrid',
+                    offset: 0
+                }, {
                     nombre: 'Lisboa',
                     offset: -1,
                 }, {
@@ -41,16 +57,17 @@
             },
             methods: {
                 getDate(offset) {
+
                     return new Date(this.ts + offset * 3600 * 1000);
                 },
 
                 hh(offset) {
 
                     let d = this.getDate(offset);
-
                     return d.getHours();
                 },
                 mm(offset) {
+
                     let d = this.getDate(offset);
                     return d.getMinutes();
                 },
@@ -60,7 +77,7 @@
                     return d.getSeconds();
                 }
             },
-            reated: function() {
+            created: function() {
                 setInterval(() => {
                     this.ts = (new Date()).getTime();
                 }, 1000);
