@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        /** Evitamos que se vean elementos 'trmplates' **/
+        
+        template {
+            display: none;
+        }
+    </style>
+    <style>
+        /** ESTILOS PROPIOS DEL RELOJ **/
+        
+        .reloj-vue {
+            width: 100px;
+            border: 1px solid black;
+            font-family: sans-serif;
+        }
+        
+        .reloj-vue h1 {
+            font-size: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Plantilla para reloj -->
+    <template id='template-reloj'>
+        <div class='reloj-vue'>
+            <h1>{{title}}</h1>
+            <div>
+                <span>{{hh}}:{{mm}}:{{ss}}</span>
+            </div>
+        </div>
+    </template>
+
+    <div id='app' style='position: relative'>
+        <!-- Crea un compoenente reloj-vue se le pasan las propiedades title, ts y offset -->
+        <reloj-vue v-for='reloj in relojes' :key='reloj.nombre' v-bind:title='reloj.nombre' v-bind:ts='ts' v-bind:offset='reloj.offset'>
+        </reloj-vue>
+        <!-- Mostramos la hora de madrid como referencia-->
+        <reloj-vue style='position: relative; top: 100px; left: 300px' v-bind:title='"Madrid"' v-bind:ts='ts' v-bind:offset='0'>
+        </reloj-vue>
+    </div>
+</body>
+<script>
+    'use strict'
+    /** Crea un componente
+    se observa como reloj-vue es el nombre que coincide con el elemento html
+    */
+    Vue.component('reloj-vue', {
+        /** indica que elemento debe usarse como plantilla **/
+        template: '#template-reloj',
+        /** Propiedades que recibe **/
+        props: {
+            offset: {
+                type: Number,
+                default: 0
+            },
+            title: {
+                type: String,
+                default: '-'
+            },
+            ts: 0,
+        },
+        computed: {
+            hh() {
+                let d = this.getDate();
+                return d.getHours();
+            },
+            mm() {
+                let d = this.getDate();
+                return d.getMinutes()
+            },
+            ss() {
+                let d = this.getDate();
+                return d.getSeconds()
+            }
+        },
+        methods: {
+            getDate() {
+                return new Date(this.ts + this.offset * 3600 * 1000)
+            }
+        },
+        data: function() {
+            return {}
+        }
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            ts: 0,
+            relojes: [{
+                nombre: 'Lisboa',
+                offset: -1,
+            }, {
+                nombre: 'Nueva York',
+                offset: -6,
+            }, {
+                nombre: 'Nueva Delhi',
+                offset: 4.5,
+            }]
+        },
+        created: function() {
+            setInterval(() => {
+                this.ts = (new Date()).getTime();
+            }, 1000);
+            this.ts = (new Date()).getTime();
+        }
+    })
+</script>
+
+</html>
