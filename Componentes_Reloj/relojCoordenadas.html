@@ -37,17 +37,18 @@
 
     <div id='app' style='position: relative'>
         <!-- Crea un compoenente reloj-vue se le pasan las propiedades title, ts y offset -->
-        <reloj-vue v-for='reloj in relojes' :key='reloj.nombre' v-bind:title='reloj.nombre' v-bind:ts='ts' v-bind:offset='reloj.offset'>
+
+        <reloj-vue v-for='reloj in relojes' :key='reloj.nombre' v-bind:title='reloj.nombre' v-bind:ts='ts' v-bind:offset='reloj.offset' v-bind:style="{position: 'relative',top: reloj.y+'px',left: reloj.x+'px'}">
         </reloj-vue>
         <!-- Mostramos la hora de madrid como referencia-->
-        <reloj-vue style='position: relative; top: 100px; left: 300px' v-bind:title='"Madrid"' v-bind:ts='ts' v-bind:offset='0'>
+        <reloj-vue style='position: relative; top: 80px; left: 400px' v-bind:title='"Madrid"' v-bind:ts='ts' v-bind:offset='0'>
         </reloj-vue>
     </div>
 </body>
 <script>
     'use strict'
     /** Crea un componente
-    se observa como reloj-vue es el nombre que coincide con el elemento html
+    se observa como reloj-vue es el nombre que coincide con  el elemento html
     */
     Vue.component('reloj-vue', {
         /** indica que elemento debe usarse como plantilla **/
@@ -94,12 +95,23 @@
             relojes: [{
                 nombre: 'Lisboa',
                 offset: -1,
+                y: 50,
+                x: 100
+
+
             }, {
                 nombre: 'Nueva York',
                 offset: -6,
+                y: 60,
+                x: 200
+
+
             }, {
                 nombre: 'Nueva Delhi',
                 offset: 4.5,
+                y: 70,
+                x: 300
+
             }]
         },
         created: function() {
