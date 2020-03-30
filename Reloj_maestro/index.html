@@ -1,0 +1,129 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        /** Evitamos que se vean elementos 'trmplates' **/
+        
+        template {
+            display: none;
+        }
+    </style>
+    <style>
+        /** ESTILOS PROPIOS DEL RELOJ **/
+        
+        .reloj-maestro {
+            width: 100px;
+            border: 1px solid black;
+            font-family: sans-serif;
+        }
+        
+        .reloj-maestro h1 {
+            font-size: 80%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Plantilla para reloj -->
+    <template id='template-reloj'>
+        <div class='reloj-vue'>
+            <h1>{{title}}</h1>
+            <div>
+                <span>{{hh}}:{{mm}}:{{ss}}</span>
+            </div>
+        </div>
+    </template>
+
+    <template id="template-reloj-maestro">
+        <div class="reloj-maestro">
+        <reloj-vue v-for='reloj in relojes' :key='reloj.nombre' v-bind:title='reloj.nombre' v-bind:ts='ts' v-bind:offset='reloj.offset' v-bind:style="{position: 'relative',top: reloj.y+'px',left: reloj.x+'px'}">
+        </reloj-vue>
+    </div>
+    </template>
+
+
+    <div id='app' style='position: relative'>
+        <reloj-vue-maestro v-bind:relojes='relojes'></reloj-vue-maestro>
+    </div>
+
+</body>
+<script>
+    'use strict'
+    /*Componente reloj maestro al que se le pasa un array*/
+    Vue.component('reloj-vue-maestro', {
+        template: '#template-reloj-maestro',
+        props: {
+            relojes: []
+        },
+        data: function() {
+            return {
+                ts: 0
+            }
+        },
+        created: function() {
+            setInterval(() => {
+                this.ts = (new Date()).getTime();
+            }, 1000);
+            this.ts = (new Date()).getTime();
+
+        }
+    })
+
+    Vue.component('reloj-vue', {
+        template: '#template-reloj',
+        props: {
+            offset: {
+                type: Number,
+                default: 0
+            },
+            title: {
+                type: String,
+                default: '-'
+            },
+            ts: 0,
+        },
+        computed: {
+            hh() {
+                let d = this.getDate();
+                return d.getHours();
+            },
+            mm() {
+                let d = this.getDate();
+                return d.getMinutes();
+            },
+            ss() {
+                let d = this.getDate();
+                return d.getSeconds();
+            },
+        },
+        methods: {
+            getDate() {
+                return new Date(this.ts + this.offset * 3600 * 1000)
+            }
+        },
+
+        data: function() {
+            return {}
+        }
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            relojes: [{
+                nombre: 'Lisboa',
+                offset: -1,
+            }, {
+                nombre: 'Nueva York',
+                offset: -6,
+            }, {
+                nombre: 'Nuena Delhi',
+                offset: 4.5,
+            }]
+        },
+
+    })
+</script>
+
+</html>
