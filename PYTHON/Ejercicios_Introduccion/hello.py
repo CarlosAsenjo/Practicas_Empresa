@@ -9,7 +9,6 @@ def hello():
 @app.route('/despedida')
 
 def despedida(name="Carlos"):
-    
     return 'Hasta la proxima, ' + name
 
 def main():
