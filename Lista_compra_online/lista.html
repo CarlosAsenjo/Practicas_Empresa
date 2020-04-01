@@ -26,23 +26,24 @@
     <div id="app">
         <ul>
             <li v-for="item in items" :key="item.id" :class="{comprado:item.comprado}">
-                <span ref="item"> <input type='checkbox' id="check" v-model="item.comprado" @click="update(item.id,item.comprado)"/>
+                <span> 
+                    <input type='checkbox' id="check" v-model="item.comprado" @click="update(item.id, item.texto, item.comprado)"/>
                     {{item.id}} {{item.texto}}
-                    <button id="btn-del" @click="del(item)">Borrar</button>
+                    <button id="btn-del" @click="deleted(item, item.id)">Borrar</button>
                 </span>
             </li>
         </ul>
         <!-- AÑADIR NUEVOS ITEMS -->
-
         <h3>A&ntilde;ade un producto</h3>
         <input type="text" ref="new_item" />
         <button id="btn-add" @click="add">A&ntilde;adir</button>
-
     </div>
 </body>
 
 <script>
     'use strict' // Aplica normas mas estrictas en el codigo
+
+    var datos = {}
 
     var app = new Vue({
         el: '#app',
@@ -52,7 +53,7 @@
 
         methods: {
             add: function() {
-                let datos = {
+                datos = {
                     texto: this.$refs.new_item.value,
                     comprado: false
                 }
@@ -65,19 +66,27 @@
             },
 
             update: function(item_id, item_texto, item_comprado) {
-                this.comprado = !item_comprado
+                item_comprado = !item_comprado
 
-                /* let datos = {
-                     id: item_id,
-                     texto: item_texto,
-                     comprado: item_comprado
-                 }*/
+                datos = {
+                    id: item_id,
+                    texto: item_texto,
+                    comprado: item_comprado
+                }
 
-                axios.put('/api/lista/' + item_id + item_texto + item_comprado).then((res) => {
+                axios.put('/api/lista/' + item_id, datos).then((res) => {
                     res.data
-                    var mod = this.items.find((x) => x.item_id == item_id);
-                    mod.comprado = item_comprado
+                    var mod = this.items.find((x) => x.id == item_id);
+                    mod.comprado = datos.comprado
                 })
+            },
+
+            deleted: function(i, item_id) {
+                console.log("item ID-------> " + item_id)
+                axios.delete('/api/lista/' + item_id).then((res) => {
+                    // El id del elemento borrado
+                    this.items.splice(i, 1)
+                });
             },
 
             created: function() {
@@ -85,14 +94,6 @@
                     res.data
                     this.items = res.data
                 })
-            },
-
-            del: function(item_id) {
-                console.log(item_id)
-                axios.delete('/api/elements/' + item_id).then((res) => {
-                    // El id del elemento borrado
-                    this.res.splice(item_id, 1)
-                });
             }
         }
     })
