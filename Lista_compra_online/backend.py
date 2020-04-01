@@ -65,7 +65,7 @@ def lista_DELETE(id):
         for ix, item in enumerate(db):
             if item['id']==id:
                 break
-            del(db[ix])
+        del(db[ix])
 
         for ix, item in enumerate(db):
             item['id']==ix
