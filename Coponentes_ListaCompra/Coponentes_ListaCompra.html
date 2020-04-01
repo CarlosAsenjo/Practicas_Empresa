@@ -9,6 +9,12 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!-- ESTILOS -->
     <style>
+        /** Evitamos que se vean elementos 'templates' **/
+        
+        template {
+            display: none;
+        }
+        
         #app ul {
             list-style: none;
         }
@@ -25,17 +31,20 @@
     <template id='template-lista'>
        <div class="lista-vue">
             <span>
-                <input type='checkbox'@click="update" />
-                {{item.id}} - {{item.texto}}
+                <input type='checkbox' @click='update'/>
+                {{id}} - {{texto}}
             </span>
         </div>
    </template>
 
     <template id="template-lista-maestra">
         <div class="lista-maestra">
-            <lista-vue v-for="item in items" :key="item.id"v-bind:id='item.id'
-            v-bind:texto='item.texto' v-bind:comprado='item.comprado' :class="{comprado:item.comprado}" >
-        </lista-vue>
+            <ul> 
+                <li>
+                    <lista-vue v-for='item in items' :key='item.id' v-bind:id='item.id' v-bind:texto='item.texto' v-bind:comprado='item.comprado' :class='{comprado:item.comprado}'>
+                    </lista-vue>
+                </li>
+            </ul>
         </div>
    </template>
 
@@ -43,7 +52,7 @@
         <!-- Crea un compoenente lista-vue se le pasan las propiedades id, texto y comprado -->
         <lista-vue-maestra v-bind:items='items'></lista-vue-maestra>
         <input type="text" ref="new_item" />
-        <button type="submit" @click="add">Añadir</button>
+        <button @click="add">Añadir</button>
     </div>
 
 </body>
@@ -51,27 +60,39 @@
 <script>
     'use strict' // Aplica normas mas estrictas en el codigo
 
-    vue.component('lista-vue-maestra', {
+    Vue.component('lista-vue-maestra', {
 
         template: '#template-lista-maestra',
 
         props: {
             items: []
         }
-    })
+    });
 
-    vue.component('lista-vue', {
+    Vue.component('lista-vue', {
 
         template: '#template-lista',
 
         props: {
-            id: Number,
-            texto: String,
-            comprado: false
+            id: {
+                type: Number,
+                default: 0
+            },
+            texto: {
+                type: String,
+                default: 'empty'
+            },
+            comprado: {
+                type: Boolean,
+                default: false
+            }
         },
         methods: {
-            update: function() {
-
+            update: function(id) { /*hay que pasarle el id*/
+                console.log("---------------------->  entra en update")
+                var check = document.getElementsByTagName("span")[i];
+                console.log("---------------------->  " + typeof check + "...." + check)
+                check.style.textDecoration = "line-through";
             }
         }
     });
@@ -80,18 +101,17 @@
         el: '#app',
         data: {
             items: [{
-                id: 1,
+                id: 0,
                 texto: 'Leche',
                 comprado: false
             }],
 
         },
         computed: {},
-
         methods: {
             add: function() {
                 this.items.push({
-                    id: this.items.length + 1,
+                    id: this.items.length,
                     texto: this.$refs.new_item.value,
                     comprado: false
                 });
