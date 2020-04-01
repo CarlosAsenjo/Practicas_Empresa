@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista compra</title>
+    <title>Lista compra online</title>
     <!--Libreria Vue-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <!--Libreria AXIOS-->
@@ -26,15 +26,17 @@
     <div id="app">
         <ul>
             <li v-for="item in items" :key="item.id" :class="{comprado:item.comprado}">
-                <!--  <input type='checkbox' v-model="item.comprado" /> -->
-
-                <span>{{item.id}} - {{item.texto}}</span>
+                <span ref="item"> <input type='checkbox' id="check" v-model="item.comprado" @click="update(item.id,item.comprado)"/>
+                    {{item.id}} {{item.texto}}
+                    <button id="btn-del" @click="del(item)">Borrar</button>
+                </span>
             </li>
         </ul>
         <!-- AÑADIR NUEVOS ITEMS -->
 
+        <h3>A&ntilde;ade un producto</h3>
         <input type="text" ref="new_item" />
-        <button type="submit" @click="add">Añadir</button>
+        <button id="btn-add" @click="add">A&ntilde;adir</button>
 
     </div>
 </body>
@@ -50,20 +52,32 @@
 
         methods: {
             add: function() {
-                datos = {
-                    id: this.items.length + 1,
+                let datos = {
                     texto: this.$refs.new_item.value,
                     comprado: false
                 }
-                this.$refs.newItem.value = "";
+
+                this.$refs.new_item.value = "";
                 axios.post('/api/lista', datos).then((res) => {
                     res.data
                     this.items.push(res.data);
                 })
             },
 
-            update: function() {
+            update: function(item_id, item_texto, item_comprado) {
+                this.comprado = !item_comprado
 
+                /* let datos = {
+                     id: item_id,
+                     texto: item_texto,
+                     comprado: item_comprado
+                 }*/
+
+                axios.put('/api/lista/' + item_id + item_texto + item_comprado).then((res) => {
+                    res.data
+                    var mod = this.items.find((x) => x.item_id == item_id);
+                    mod.comprado = item_comprado
+                })
             },
 
             created: function() {
@@ -71,6 +85,14 @@
                     res.data
                     this.items = res.data
                 })
+            },
+
+            del: function(item_id) {
+                console.log(item_id)
+                axios.delete('/api/elements/' + item_id).then((res) => {
+                    // El id del elemento borrado
+                    this.res.splice(item_id, 1)
+                });
             }
         }
     })

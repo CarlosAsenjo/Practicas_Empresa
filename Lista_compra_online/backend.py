@@ -39,24 +39,39 @@ def lista_POST():
 #: Añade el elemento a la lista...
     database.append(res)
 #: ... y escribe la base de datos en formato JSON
-    with open('lista.json','w') as f:
+    with open('database.json','w') as f:
         f.write(json.dumps(database))
     return jsonify(res)
 
-@app.route('/api/lista/<id>',methods=['PUT'])
+@app.route('/api/lista/<int:id>',methods=['PUT'])
 def lista_PUT(id):
-     with open('database.json') as f:
-        data = json.loads(f.read())
-        res = data
-        item = [x for x in data if x['id']==id]
-        res = item[0] if item else None
-        data.update(data)
-        return jsonify(res)
-
-@app.route('/api/lista/<id>', methods=['DELETE'])
-def lista_DELETE(id):
     data = request.json
-    data(id)
+    with open('database.json') as f:
+        db = json.loads(f.read())
+    res = db
+    item = [x for x in db if x['id']==id]
+    res = item[0]
+    res.update(data)
+
+    with open('database.json','w') as f:
+        f.write(json.dumps(db))
+    return jsonify(res)
+
+@app.route('/api/lista/<int:id>', methods=['DELETE'])
+def lista_DELETE(id):
+    print(id)
+    data = request.json
+    with open('database.json') as f:
+        db = json.loads(f.read())
+    res = db
+    for x in range(len(db)):
+        if x['id']==id:
+            break
+        else:
+            del(res[x])
+    
+    with open('database.json','w') as f:
+        f.write(json.dumps(db))
     return jsonify(id)
 
 def main():
