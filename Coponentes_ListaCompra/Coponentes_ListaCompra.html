@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista compra componentes</title>
+    <!--Libreria Vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- ESTILOS -->
+    <style>
+        #app ul {
+            list-style: none;
+        }
+        
+        #app ul li.comprado span {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lista de la compra</h1>
+    <!-- Plantilla lista compra -->
+    <template id='template-lista'>
+       <div class="lista-vue">
+            <span>
+                <input type='checkbox'@click="update" />
+                {{item.id}} - {{item.texto}}
+            </span>
+        </div>
+   </template>
+
+    <template id="template-lista-maestra">
+        <div class="lista-maestra">
+            <lista-vue v-for="item in items" :key="item.id"v-bind:id='item.id'
+            v-bind:texto='item.texto' v-bind:comprado='item.comprado' :class="{comprado:item.comprado}" >
+        </lista-vue>
+        </div>
+   </template>
+
+    <div id="app">
+        <!-- Crea un compoenente lista-vue se le pasan las propiedades id, texto y comprado -->
+        <lista-vue-maestra v-bind:items='items'></lista-vue-maestra>
+        <input type="text" ref="new_item" />
+        <button type="submit" @click="add">Añadir</button>
+    </div>
+
+</body>
+
+<script>
+    'use strict' // Aplica normas mas estrictas en el codigo
+
+    vue.component('lista-vue-maestra', {
+
+        template: '#template-lista-maestra',
+
+        props: {
+            items: []
+        }
+    })
+
+    vue.component('lista-vue', {
+
+        template: '#template-lista',
+
+        props: {
+            id: Number,
+            texto: String,
+            comprado: false
+        },
+        methods: {
+            update: function() {
+
+            }
+        }
+    });
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [{
+                id: 1,
+                texto: 'Leche',
+                comprado: false
+            }],
+
+        },
+        computed: {},
+
+        methods: {
+            add: function() {
+                this.items.push({
+                    id: this.items.length + 1,
+                    texto: this.$refs.new_item.value,
+                    comprado: false
+                });
+            }
+        }
+    });
+</script>
+
+</html>
