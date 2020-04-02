@@ -14,8 +14,8 @@
             display: none;
         }
         
-        #app ul {
-            list-style: none;
+        .comprado {
+            text-decoration: line-through;
         }
     </style>
 </head>
@@ -25,8 +25,8 @@
     <!-- Plantilla lista compra -->
     <template id='template-lista'>
        <div class="lista-vue">
-            <span>
-                <input type='checkbox' @click='update'/>
+            <input type='checkbox' v-bind:checked='checked' v-on:change="$emit('change','$event.target.checked')" >
+             <span>
                 {{id}} - {{texto}}
             </span>
         </div>
@@ -34,12 +34,8 @@
 
     <template id="template-lista-maestra">
         <div class="lista-maestra">
-            <ul> 
-                <li>
-                    <lista-vue v-for='item in items' :key='item.id' v-bind:id='item.id' v-bind:texto='item.texto' v-bind:comprado='item.comprado' :class='{comprado:item.comprado}'>
-                    </lista-vue>
-                </li>
-            </ul>
+            <lista-vue  v-for='item in items' :key='item.id' v-bind:id='item.id' v-bind:texto='item.texto' v-bind:comprado='item.comprado' :class="{comprado:item.comprado}" v-model='item.comprado'>
+            </lista-vue>
         </div>
    </template>
 
@@ -61,7 +57,7 @@
 
         props: {
             items: []
-        }
+        },
     });
 
     Vue.component('lista-vue', {
@@ -80,16 +76,23 @@
             comprado: {
                 type: Boolean,
                 default: false
-            }
+            },
+            checked: Boolean
         },
-        methods: {
-            update: function(id) { /*hay que pasarle el id*/
-                console.log("---------------------->  entra en update")
-                var check = document.getElementsByTagName("span")[i];
-                console.log("---------------------->  " + typeof check + "...." + check)
-                check.style.textDecoration = "line-through";
-            }
-        }
+        model: {
+            prop: 'checked',
+            event: 'change'
+        },
+
+        /*  methods: {
+             update: function(item_comprado) { //hay que pasarle el id
+                 item_comprado = !item_comprado
+                     console.log("---------------------->  entra en update")
+                      var check = document.getElementsByTagName("span")[id];
+                      console.log("---------------------->  " + typeof check + "...." + check)
+                      check.style.textDecoration = "line-through";
+             }
+         }*/
     });
 
     var app = new Vue({
@@ -110,6 +113,7 @@
                     texto: this.$refs.new_item.value,
                     comprado: false
                 });
+                this.$refs.new_item.value = "";
             }
         }
     });
