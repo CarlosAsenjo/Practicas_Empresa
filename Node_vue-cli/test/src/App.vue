@@ -1,14 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!--<div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view/>-->
+
+
      <!-- DIV LISTA COMPRA-->  
-    <div id="lista">
-        <!-- Crea un compoenente lista-vue se le pasan las propiedades id, texto y comprado -->
-        <lista-vue-maestra v-bind:items='items'></lista-vue-maestra>
+    <div class="listaCompra">
+      <h2>Lista de la compra</h2>
         <input type="text" ref="new_item" />
         <button @click="add">Añadir</button>
     </div>
