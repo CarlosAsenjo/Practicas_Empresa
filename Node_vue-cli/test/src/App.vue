@@ -1,18 +1,10 @@
 <template>
   <div id="app">
-    <!--<div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>-->
-
-
-     <!-- DIV LISTA COMPRA-->  
-    <div class="listaCompra">
-      <h2>Lista de la compra</h2>
-        <input type="text" ref="new_item" />
-        <button @click="add">Añadir</button>
-    </div>
+    <div id="nav">
+    <!--  <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> -->
+      <router-view/>
+    </div>  
   </div>
 </template>
 

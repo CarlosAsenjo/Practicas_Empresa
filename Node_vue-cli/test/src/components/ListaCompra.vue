@@ -11,7 +11,6 @@
 <script>
     export default {
         name: 'ListaCompra',
-        
         props: {    
             id: {
                 type: Number,
@@ -31,24 +30,15 @@
             prop: 'checked',
             event: 'change'
         },
-
-        methods:{
-            add: function(){
-              this.items.push({
-                  id:this.items.length +1, texto:this.$refs.new_item.value,comprado:false
-              });
-              this.$refs.new_item.value="";
-            }
-        }
     }
 </script>
 
 <!-- ESTILOS -->
 <style>
-    template {
-    /** Evitamos que se vean elementos 'templates' **/
+/**     template {
+    Evitamos que se vean elementos 'templates'
         display: none;
-    }
+    } **/
         
     .comprado {
         text-decoration: line-through;
